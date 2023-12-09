@@ -13,18 +13,18 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import PuzzleMain from './src/PuzzleMain'
-import PuzzleSelector from './src/PuzzleSelector'
+import { ACROSTIC_SCREEN, PUZZLE_SELECTOR_SCREEN } from './constants/NavigationConstants';
+import PuzzleMain from './components/PuzzleMain'
+import PuzzleSelector from './components/PuzzleSelector'
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    // View for the hamburger menu
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Acrostic">
-        <Stack.Screen name="Acrostic" component={PuzzleMain} />
-        <Stack.Screen name="Puzzle Selector" component={PuzzleSelector} options={{ title: 'Pick a Puzzle' }}/>
+      <Stack.Navigator initialRouteName={ACROSTIC_SCREEN}>
+        <Stack.Screen name={ACROSTIC_SCREEN} component={PuzzleMain} />
+        <Stack.Screen name={PUZZLE_SELECTOR_SCREEN} component={PuzzleSelector} options={{ title: 'Pick a Puzzle' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
