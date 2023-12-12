@@ -12,7 +12,7 @@ const PuzzleMain: React.FC<Props> = ({ navigation }) => {
                 title="Go to Current Puzzle"
                 onPress={() => navigation.navigate(ACROSTIC_SCREEN)}
             />
-        </View>
+  f      </View>
     );
 };
 

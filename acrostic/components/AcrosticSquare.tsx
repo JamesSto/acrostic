@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { SQUARE_ROW_LENGTH } from '../constants/GridConstants';
 import { AcrosticSquareData } from '../puzzle_logic/AcrosticPuzzleData';
 
 interface AcrosticSquareProps {
@@ -9,10 +10,10 @@ interface AcrosticSquareProps {
     onSquarePress: () => void;
 }
 
-const AcrosticSquare: React.FC<AcrosticSquareProps> = ({ squareData, isHighlighted, onSquarePress }) => {
+export const AcrosticSquare: React.FC<AcrosticSquareProps> = ({ squareData, isHighlighted, onSquarePress }) => {
 
     return (
-        <TouchableOpacity onPress={onSquarePress} style={[styles.container, isHighlighted && styles.highlighted]}>
+        <TouchableOpacity onPress={onSquarePress} style={[styles.square, styles.standardSquare, isHighlighted && styles.highlighted]}>
             <View style={styles.content}>
                 <Text style={[styles.squareNumber, styles.squareLabel]}>{squareData.squareNumber}</Text>
                 <Text style={[styles.clueLetter, styles.squareLabel]}>{squareData.clueLetter}</Text>
@@ -22,24 +23,30 @@ const AcrosticSquare: React.FC<AcrosticSquareProps> = ({ squareData, isHighlight
     );
 };
 
+export const BlackSquare: React.FC = () => {
+    return <View style={[styles.square, styles.blackSquare]} />
+}
+
 const styles = StyleSheet.create({
-    container: {
-        width: 40,
-        height: 40,
-        borderWidth: 1.5,
-        borderColor: 'gray',
+    square: {
+        width: `${100 / SQUARE_ROW_LENGTH - 0.1}%`,
+        aspectRatio: '1',
         justifyContent: 'center',
         alignItems: 'center',
         margin: -0.75,
+    },
+    standardSquare: {
         backgroundColor: '#f0f0f0',
+        zIndex: 1,
+        borderWidth: 1.5,
+        borderColor: 'gray',
+    },
+    blackSquare: {
+        backgroundColor: '#333333',
+        zIndex: 2,
     },
     highlighted: {
-        backgroundColor: 'yellow',
-    },
-    square: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'relative',
+        backgroundColor: '#ffcd33',
     },
     content: {
         // Style to position the number and letter
@@ -51,21 +58,20 @@ const styles = StyleSheet.create({
     },
     squareLabel: {
         position: 'absolute',
-        fontSize: 10,
+        fontSize: 8,
         top: '-5%',
-        color: 'gray',
+        color: '#808080',
     },
     squareNumber: {
-        left: '5%',
+        left: '3%',
     },
     clueLetter: {
-        right: '5%',
+        right: '3%',
     },
     answerLetter: {
-        fontSize: 24,
-        top: '5%',
+        fontSize: 18,
+        top: '8%',
         textAlign: 'center',
+        fontWeight: '500',
     }
 });
-
-export default AcrosticSquare;
