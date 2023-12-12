@@ -8,7 +8,6 @@ import { ACROSTIC_SCREEN, PUZZLE_SELECTOR_SCREEN } from '../constants/Navigation
 const PuzzleMain: React.FC<Props> = ({ navigation }) => {
     return (
         <View>
-            <Text>TODO: Create selector for which puzzle to play</Text>
             <Button
                 title="Go to Current Puzzle"
                 onPress={() => navigation.navigate(ACROSTIC_SCREEN)}

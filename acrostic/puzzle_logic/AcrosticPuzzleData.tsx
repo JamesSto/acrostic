@@ -1,11 +1,11 @@
-export class AcrosticPuzzle {
+export class AcrosticPuzzleData {
     public title: string;
     public author: string;
     public quote: string;
-    public clues: AcrosticClue[];
-    public grid: AcrosticGrid;
+    public clues: AcrosticClueData[];
+    public grid: AcrosticGridData;
 
-    constructor(title: string, author: string, quote: string, clues: AcrosticClue[], grid: AcrosticGrid) {
+    constructor(title: string, author: string, quote: string, clues: AcrosticClueData[], grid: AcrosticGridData) {
         this.title = title;
         this.author = author;
         this.quote = quote;
@@ -14,29 +14,29 @@ export class AcrosticPuzzle {
     }
 }
 
-export class AcrosticGrid {
-    public quoteSquares: AcrosticSquare[][];
-    public authorSquares: AcrosticSquare[];
+export class AcrosticGridData {
+    public quoteSquares: AcrosticSquareData[][];
+    public authorSquares: AcrosticSquareData[];
 
-    constructor(quoteSquares: AcrosticSquare[][], authorSquares: AcrosticSquare[]) {
+    constructor(quoteSquares: AcrosticSquareData[][], authorSquares: AcrosticSquareData[]) {
         this.quoteSquares = quoteSquares;
         this.authorSquares = authorSquares;
     }
 }
 
-export class AcrosticClue {
+export class AcrosticClueData {
     public clue: string;
     public letter: string;
-    public answer: AcrosticSquare[];
+    public answer: AcrosticSquareData[];
 
-    constructor(clue: string, letter: string, answer: AcrosticSquare[]) {
+    constructor(clue: string, letter: string, answer: AcrosticSquareData[]) {
         this.clue = clue;
         this.letter = letter;
         this.answer = answer;
     }
 }
 
-export class AcrosticSquare {
+export class AcrosticSquareData {
     public answerLetter: string;
     public clueLetter: string;
     public squareNumber: number;
