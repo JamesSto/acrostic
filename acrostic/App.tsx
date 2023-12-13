@@ -24,7 +24,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName={ACROSTIC_SCREEN}>
         <Stack.Screen name={ACROSTIC_SCREEN} component={PuzzleMain} />
-        <Stack.Screen name={PUZZLE_SELECTOR_SCREEN} component={PuzzleSelector} options={{ title: 'Pick a Puzzle' }} />
+        <Stack.Screen name={PUZZLE_SELECTOR_SCREEN} component={PuzzleSelector} />
       </Stack.Navigator>
     </NavigationContainer>
   );

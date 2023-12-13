@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
-import { SQUARE_ROW_LENGTH } from '../constants/GridConstants';
+import { SQUARE_ROW_LENGTH, SQUARE_BORDER_WIDTH } from '../constants/GridConstants';
 import { AcrosticSquareData } from '../puzzle_logic/AcrosticPuzzleData';
 
 interface AcrosticSquareProps {
@@ -33,13 +33,13 @@ const styles = StyleSheet.create({
         aspectRatio: '1',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: -0.75,
+        margin: -1 * SQUARE_BORDER_WIDTH / 2,
     },
     standardSquare: {
         backgroundColor: '#f0f0f0',
         zIndex: 1,
-        borderWidth: 1.5,
         borderColor: 'gray',
+        borderWidth: SQUARE_BORDER_WIDTH,
     },
     blackSquare: {
         backgroundColor: '#333333',
@@ -58,19 +58,19 @@ const styles = StyleSheet.create({
     },
     squareLabel: {
         position: 'absolute',
-        fontSize: 8,
+        fontSize: 9,
         top: '-5%',
-        color: '#808080',
+        color: '#707070',
     },
     squareNumber: {
         left: '3%',
     },
     clueLetter: {
-        right: '3%',
+        right: '4%',
     },
     answerLetter: {
-        fontSize: 18,
-        top: '8%',
+        fontSize: 17,
+        top: '9%',
         textAlign: 'center',
         fontWeight: '500',
     }

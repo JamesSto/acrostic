@@ -53,7 +53,6 @@ const flattenWords = function (squares: AcrosticSquareData[][]): JSX.Element[][]
     if (curr_arr.length > 0) {
         acc.push(curr_arr);
     }
-    console.log(acc[0]);
     return acc;
 }
 
@@ -65,12 +64,14 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
         alignItems: 'center',
+        paddingTop: '3%'
     },
     word: {
         flexDirection: 'row',
         alignItems: 'flex-start',
     },
     grid: {
+        paddingTop: '3%',
         flexDirection: 'column',
         alignItems: 'flex-start',
     },
