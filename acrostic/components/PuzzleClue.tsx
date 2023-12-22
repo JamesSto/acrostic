@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     clueLabelContainer: {
         flexDirection: 'row',
         marginBottom: 5,
-        marginRight: 30,
+        marginRight: 40,
     },
     clueLetter: {
         fontWeight: 'bold',
