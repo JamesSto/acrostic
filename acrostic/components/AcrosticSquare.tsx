@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions } from 'react-native';
 import { SQUARE_ROW_LENGTH, SQUARE_BORDER_WIDTH } from '../constants/GridConstants';
 import { AcrosticSquareData } from '../puzzle_logic/AcrosticPuzzleData';
 
@@ -29,7 +29,7 @@ export const BlackSquare: React.FC = () => {
 
 const styles = StyleSheet.create({
     square: {
-        width: `${100 / SQUARE_ROW_LENGTH - 0.1}%`,
+        width: Dimensions.get('window').width / SQUARE_ROW_LENGTH,
         aspectRatio: '1',
         justifyContent: 'center',
         alignItems: 'center',
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffcd33',
     },
     content: {
-        // Style to position the number and letter
         position: 'absolute',
         width: '100%',
         height: '100%',
@@ -58,9 +57,9 @@ const styles = StyleSheet.create({
     },
     squareLabel: {
         position: 'absolute',
-        fontSize: 9,
+        fontSize: 7,
         top: '-5%',
-        color: '#707070',
+        color: '#505050',
     },
     squareNumber: {
         left: '3%',
@@ -69,8 +68,8 @@ const styles = StyleSheet.create({
         right: '4%',
     },
     answerLetter: {
-        fontSize: 17,
-        top: '9%',
+        fontSize: 14,
+        top: '10%',
         textAlign: 'center',
         fontWeight: '500',
     }

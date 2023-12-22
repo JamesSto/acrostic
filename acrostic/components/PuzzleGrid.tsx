@@ -13,17 +13,11 @@ import { AcrosticPuzzleData, AcrosticSquareData } from '../puzzle_logic/Acrostic
 const PuzzleMain: React.FC<Props> = ({ navigation }) => {
     let puzzle = parseAcrosticPuzzle(PUZZLE_TEXT);
     return (
-        <View style={styles.container}>
-            <Button
-                title="Go to Puzzle Selector"
-                onPress={() => navigation.navigate(PUZZLE_SELECTOR_SCREEN)}
-            />
-            <View style={styles.grid}>
-                {
-                    flattenWords(puzzle.grid.quoteSquares).map((row: JSX.Element[], index: number) =>
-                        <View style={styles.word} key={index}>{row}</View>)
-                }
-            </View>
+        <View style={styles.grid}>
+            {
+                flattenWords(puzzle.grid.quoteSquares).map((row: JSX.Element[], index: number) =>
+                    <View style={styles.word} key={index}>{row}</View>)
+            }
         </View>
     );
 };
@@ -53,6 +47,9 @@ const flattenWords = function (squares: AcrosticSquareData[][]): JSX.Element[][]
     if (curr_arr.length > 0) {
         acc.push(curr_arr);
     }
+    while (curr_arr.length < SQUARE_ROW_LENGTH) {
+        curr_arr.push(<BlackSquare key={count++} />);
+    }
     return acc;
 }
 
@@ -71,7 +68,6 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
     },
     grid: {
-        paddingTop: '3%',
         flexDirection: 'column',
         alignItems: 'flex-start',
     },
