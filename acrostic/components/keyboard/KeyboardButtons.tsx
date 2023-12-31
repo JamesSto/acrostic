@@ -1,52 +1,72 @@
-import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { TouchableOpacity, Text, StyleSheet, View, Pressable } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-const LetterButton: React.FC<LetterButtonProps> = ({ letter, handleLetterPress }) => {
+type LetterButtonProps = {
+    letter: string;
+    onPress: () => void;
+}
+
+type BackspaceButtonProps = {
+    onPress: () => void;
+};
+
+const LetterButton: React.FC<LetterButtonProps> = ({ letter, onPress }) => {
+    const [isPressed, setIsPressed] = useState(false);
+
+    const ghostButton = <View style={[styles.button, styles.ghostButton]}><Text style={styles.buttonText}>{letter}</Text></View>;
+
     return (
-        <TouchableOpacity style={styles.letterButton} onPress={handleLetterPress}>
-            <Text style={styles.letterButtonText}>{letter}</Text>
-        </TouchableOpacity>
+        <Pressable 
+            style={[styles.button, styles.letterButton]} 
+            hitSlop={2} onPress={onPress} 
+            onPressIn={() => setIsPressed(true)} 
+            onPressOut={() => setIsPressed(false)}
+        >
+            {isPressed ? ghostButton : null}
+            <Text style={styles.buttonText}>{letter}</Text>
+        </Pressable>
     );
 };
 
-const BackspaceButton: React.FC<BackspaceButtonProps> = ({ handleBackspacePress }) => {
+const BackspaceButton: React.FC<BackspaceButtonProps> = ({ onPress }) => {
     return (
-        <TouchableOpacity style={styles.backspaceButton} onPress={handleBackspacePress}>
-            <Text style={styles.backspaceButtonText}>Backspace</Text>
+        <TouchableOpacity style={[styles.button, styles.backspaceButton]} onPress={onPress}>
+            <Ionicons name="md-backspace" size={28} color="black" />
         </TouchableOpacity>
     );
 };
 
 const styles = StyleSheet.create({
-    letterButton: {
-        backgroundColor: 'lightblue',
-        padding: 10,
-        borderRadius: 5,
-        margin: 5,
+    button: {
+        height: 55,
+        borderRadius: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 2,
+        backgroundColor: '#f9f9f9',
     },
-    letterButtonText: {
-        color: 'white',
-        fontSize: 16,
+    ghostButton: {
+        position: 'absolute',
+        top: -63,
+        width: '100%',
+        backgroundColor: '#e0e0e0',
+        opacity: 1,
+    },
+    letterButton: {
+        width: '9%',
     },
     backspaceButton: {
-        backgroundColor: 'lightblue',
-        padding: 10,
-        borderRadius: 5,
-        margin: 5,
+        width: '12%',
+    },
+    buttonText: {
+        color: 'black',
+        fontSize: 20,
     },
     backspaceButtonText: {
         color: 'white',
         fontSize: 16,
     },
 });
-
-type LetterButtonProps = {
-    letter: string;
-    handleLetterPress: () => void;
-}
-
-type BackspaceButtonProps = {
-    handleBackspacePress: () => void;
-};
 
 export { LetterButton, BackspaceButton };

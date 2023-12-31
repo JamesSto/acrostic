@@ -16,23 +16,41 @@ const Keyboard: React.FC = () => {
     };
 
     return (
-        <View>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                {topRow.map((letter) => (<LetterButton key={letter} onPress={() => handleLetterPress(letter)} />))}
-                {middleRow.map((letter) => (<LetterButton key={letter} onPress={() => handleLetterPress(letter)} />))}
-                {
-                    bottomRow.map((letter) => (<LetterButton key={letter} onPress={() => handleLetterPress(letter)} />))
-                        .concat([<BackspaceButton key="backspace" onPress={handleBackspacePress} />])
+        <View style={styles.container}>
+            <View style={styles.keyboardRow}>
+                {topRow.map((letter) => (
+                    <LetterButton key={letter} letter={letter} onPress={() => handleLetterPress(letter)} />
+                ))}
+            </View>
+            <View style={styles.keyboardRow}>
+                {middleRow.map((letter) => (
+                    <LetterButton key={letter} letter={letter} onPress={() => handleLetterPress(letter)} />
+                ))}
+            </View>
+            <View style={styles.keyboardRow}>
+                {bottomRow.map((letter) => (
+                    <LetterButton letter={letter} key={letter} onPress={() => handleLetterPress(letter)} />
+                )).concat([
+                    <BackspaceButton key="backspace" onPress={handleBackspacePress} />
+                ])
                 }
             </View>
+
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
+    keyboardRow: {
         flexDirection: 'row',
+        marginBottom: 3,
+    },
+    container: {
+        alignItems: 'center',
+        flexDirection: 'column',
         flexWrap: 'wrap',
+        backgroundColor: 'lightgray',
+        padding: 5,
     },
 });
 

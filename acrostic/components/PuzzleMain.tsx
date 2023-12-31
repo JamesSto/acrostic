@@ -31,9 +31,11 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
     const grid = <PuzzleGrid puzzle={puzzle} />;
     const clueView = <PuzzleCluesView puzzle={puzzle} />;
 
-    return <View>
+    return <View style={styles.container}>
         {selectedSection == PuzzleSection.Grid ? grid : clueView}
-        <Keyboard />
+        <View style={styles.keyboardContainer}>
+            <Keyboard />
+        </View>
     </View>;
 }
 
@@ -54,6 +56,13 @@ interface SwitchSectionButtonProps {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    keyboardContainer: {
+        position: 'absolute',
+        bottom: 0,
+    }
 });
 
 export default PuzzleMain;
