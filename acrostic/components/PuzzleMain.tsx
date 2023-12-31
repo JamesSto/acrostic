@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -9,6 +9,7 @@ import { PUZZLE_TEXT } from '../puzzles/2023-05-21';
 import PuzzleGrid from './PuzzleGrid'
 import PuzzleCluesView from './PuzzleCluesView'
 import { AcrosticPuzzleData, AcrosticSquareData } from '../puzzle_logic/AcrosticPuzzleData';
+import Keyboard from './keyboard/Keyboard'
 
 enum PuzzleSection {
     Grid = "Grid",
@@ -30,7 +31,10 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
     const grid = <PuzzleGrid puzzle={puzzle} />;
     const clueView = <PuzzleCluesView puzzle={puzzle} />;
 
-    return selectedSection == PuzzleSection.Grid ? grid : clueView;
+    return <View>
+        {selectedSection == PuzzleSection.Grid ? grid : clueView}
+        <Keyboard />
+    </View>;
 }
 
 const SwitchSectionButton: React.FC<SwitchSectionButtonProps> = ({ selectedSection, setSelectedSection }) => {
