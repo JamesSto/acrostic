@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -10,17 +10,16 @@ import parseAcrosticPuzzle from '../puzzle_logic/PuzzleParser';
 import { PUZZLE_TEXT } from '../puzzles/2023-05-21';
 import { AcrosticPuzzleData, AcrosticSquareData } from '../puzzle_logic/AcrosticPuzzleData';
 
-const PuzzleMain: React.FC<Props> = ({ navigation }) => {
-    let puzzle = parseAcrosticPuzzle(PUZZLE_TEXT);
+const PuzzleGrid: React.FC<Props> = memo(({ puzzle }) => {
     return (
-        <View style={styles.grid}>
+        <View style={[styles.grid]}>
             {
                 flattenWords(puzzle.grid.quoteSquares).map((row: JSX.Element[], index: number) =>
                     <View style={styles.word} key={index}>{row}</View>)
             }
         </View>
     );
-};
+});
 
 const flattenWords = function (squares: AcrosticSquareData[][]): JSX.Element[][] {
     let acc: JSX.Element[][] = [];
@@ -54,7 +53,7 @@ const flattenWords = function (squares: AcrosticSquareData[][]): JSX.Element[][]
 }
 
 interface Props {
-    navigation: NativeStackNavigationProp<any, any>;
+    puzzle: AcrosticPuzzleData,
 }
 
 const styles = StyleSheet.create({
@@ -68,9 +67,11 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
     },
     grid: {
+        marginTop: 6,
         flexDirection: 'column',
         alignItems: 'flex-start',
+        alignSelf: 'center',
     },
 });
 
-export default PuzzleMain;
+export default PuzzleGrid;

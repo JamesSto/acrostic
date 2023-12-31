@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import { StyleSheet, ScrollView, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -9,21 +9,20 @@ import parseAcrosticPuzzle from '../puzzle_logic/PuzzleParser';
 import { PUZZLE_TEXT } from '../puzzles/2023-05-21';
 import { AcrosticPuzzleData } from '../puzzle_logic/AcrosticPuzzleData';
 
-const PuzzleCluesView: React.FC<Props> = ({ navigation }) => {
-    let puzzleData = parseAcrosticPuzzle(PUZZLE_TEXT);
+const PuzzleCluesView: React.FC<Props> = memo(({ puzzle }) => {
     return (
         <ScrollView>
             <View style={styles.container}>
-                {puzzleData.clues.map((clueData, index) => (
+                {puzzle.clues.map((clueData, index) => (
                     <PuzzleClue key={index} acrosticClueData={clueData} />
                 ))}
             </View>
         </ScrollView>
     );
-};
+});
 
 interface Props {
-    navigation: NativeStackNavigationProp<any, any>;
+    puzzle: AcrosticPuzzleData,
 }
 
 const styles = StyleSheet.create({

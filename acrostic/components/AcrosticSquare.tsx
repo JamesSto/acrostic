@@ -11,7 +11,6 @@ interface AcrosticSquareProps {
 }
 
 export const AcrosticSquare: React.FC<AcrosticSquareProps> = ({ squareData, isHighlighted, onSquarePress }) => {
-
     return (
         <TouchableOpacity onPress={onSquarePress} style={[styles.square, styles.standardSquare, isHighlighted && styles.highlighted]}>
             <View style={styles.content}>
