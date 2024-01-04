@@ -12,6 +12,11 @@ export class AcrosticPuzzleData {
         this.clues = clues;
         this.grid = grid;
     }
+
+    public equals(other: AcrosticPuzzleData): boolean {
+        console.log(this.title == other.title && this.author == other.author);
+        return this.title == other.title && this.author == other.author;
+    }
 }
 
 export class AcrosticGridData {

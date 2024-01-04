@@ -35,14 +35,6 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
         { key: PuzzleSection.Clues, title: 'Clues' },
     ]);
 
-    useEffect(() => {
-        navigation.setOptions({ 
-            headerRight: () => (
-                <Button onPress={() => setIndex(index == 1 ? 0 : 1)} title={"See " + routes[index == 0 ? 1 : 0].key} />
-            ),
-        });
-    }, [navigation, index]);
-
     return <View style={styles.container}>
         <TabView
             navigationState={{ index, routes }}

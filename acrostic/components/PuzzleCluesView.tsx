@@ -19,7 +19,7 @@ const PuzzleCluesView: React.FC<Props> = memo(({ puzzle }) => {
             </View>
         </ScrollView>
     );
-});
+}, (prevProps, nextProps) => { return prevProps.puzzle.equals(nextProps.puzzle); });
 
 interface Props {
     puzzle: AcrosticPuzzleData,

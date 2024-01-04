@@ -19,7 +19,7 @@ const PuzzleGrid: React.FC<Props> = memo(({ puzzle }) => {
             }
         </View>
     );
-});
+}, (prevProps, nextProps) => { return prevProps.puzzle.equals(nextProps.puzzle); });
 
 const flattenWords = function (squares: AcrosticSquareData[][]): JSX.Element[][] {
     let acc: JSX.Element[][] = [];
