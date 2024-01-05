@@ -1,16 +1,17 @@
 
-import React from 'react';
+import React, { memo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions } from 'react-native';
 import { SQUARE_ROW_LENGTH, SQUARE_BORDER_WIDTH } from '../constants/GridConstants';
 import { AcrosticSquareData } from '../puzzle_logic/AcrosticPuzzleData';
 
 interface AcrosticSquareProps {
     squareData: AcrosticSquareData;
+    userEntry: string;
     isHighlighted: boolean;
     onSquarePress: () => void;
 }
 
-export const AcrosticSquare: React.FC<AcrosticSquareProps> = ({ squareData, isHighlighted, onSquarePress }) => {
+export const AcrosticSquare: React.FC<AcrosticSquareProps> = memo(({ squareData, userEntry, isHighlighted, onSquarePress }) => {
     return (
         <TouchableOpacity onPress={onSquarePress} style={[styles.square, styles.standardSquare, isHighlighted && styles.highlighted]}>
             <View style={styles.content}>
@@ -20,7 +21,11 @@ export const AcrosticSquare: React.FC<AcrosticSquareProps> = ({ squareData, isHi
             </View>
         </TouchableOpacity>
     );
-};
+}, (prevProps, nextProps) => { 
+    return prevProps.userEntry == nextProps.userEntry && 
+        prevProps.squareData.equals(nextProps.squareData) && 
+        prevProps.isHighlighted == nextProps.isHighlighted; 
+})
 
 export const BlackSquare: React.FC = () => {
     return <View style={[styles.square, styles.blackSquare]} />

@@ -45,10 +45,16 @@ export class AcrosticSquareData {
     public answerLetter: string;
     public clueLetter: string;
     public squareNumber: number;
+    public isBlack: boolean;
 
     constructor(answerLetter: string, clueLetter: string, squareNumber: number) {
         this.answerLetter = answerLetter;
         this.clueLetter = clueLetter;
         this.squareNumber = squareNumber;
+        this.isBlack = answerLetter == "" && clueLetter == "";
+    }
+
+    public equals(other: AcrosticSquareData): boolean {
+        return this.answerLetter == other.answerLetter && this.clueLetter == other.clueLetter && this.squareNumber == other.squareNumber;
     }
 }
