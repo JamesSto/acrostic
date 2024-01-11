@@ -54,6 +54,10 @@ export class AcrosticSquareData {
         this.isBlack = answerLetter == "" && clueLetter == "";
     }
 
+    static blackSquare(): AcrosticSquareData {
+        return new AcrosticSquareData("", "", 0);
+    }
+
     public equals(other: AcrosticSquareData): boolean {
         return this.answerLetter == other.answerLetter && this.clueLetter == other.clueLetter && this.squareNumber == other.squareNumber;
     }

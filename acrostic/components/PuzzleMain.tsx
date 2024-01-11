@@ -27,15 +27,16 @@ enum PuzzleSection {
 }
 
 const PuzzleMain: React.FC<PuzzleMainProps> = ({ puzzle }) => {
-  const [userEntries, setUserEntries] = useState<string[]>(Array(puzzle.grid.quoteSquares.length + 1).fill(""));
+  const [userEntries, setUserEntries] = useState<string[]>(
+    Array(puzzle.grid.quoteSquares.length + 1).fill("")
+  );
   const [highlightedSquareNumber, setHighlightedSquareNumber] = useState(1);
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: PuzzleSection.Grid, title: "Grid" },
     { key: PuzzleSection.Clues, title: "Clues" },
   ]);
-
-  const layout = useWindowDimensions();
+  useEffect(() => { console.log("main useEffect"); }, []);
 
   const grid = (
     <PuzzleGrid
@@ -45,8 +46,10 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ puzzle }) => {
       setHighlightedSquareNumber={setHighlightedSquareNumber}
     />
   );
-  const clueView = <PuzzleCluesView puzzle={puzzle} />;
+  //   const clueView = <PuzzleCluesView puzzle={puzzle} />;
+  const clueView = <Text>Hello</Text>;
 
+  const layout = useWindowDimensions();
   const renderScene = SceneMap({
     [PuzzleSection.Grid]: () => grid,
     [PuzzleSection.Clues]: () => clueView,
@@ -69,7 +72,7 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ puzzle }) => {
 };
 
 interface PuzzleMainProps {
-//   navigation: NativeStackNavigationProp<any, any>;
+  //   navigation: NativeStackNavigationProp<any, any>;
   puzzle: AcrosticPuzzleData;
 }
 
