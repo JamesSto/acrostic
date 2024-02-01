@@ -3,10 +3,6 @@ import React, { memo, useMemo, useEffect, useState, useCallback } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import {
-  ACROSTIC_SCREEN,
-  PUZZLE_SELECTOR_SCREEN,
-} from "../constants/NavigationConstants";
 import { AcrosticSquare, BlackSquare } from "./AcrosticSquare";
 import parseAcrosticPuzzle from "../puzzle_logic/PuzzleParser";
 import { PUZZLE_TEXT } from "../puzzles/2023-05-21";
@@ -72,7 +68,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   grid: {
-    marginTop: 60,
+    marginTop: 12,
     flexDirection: "column",
     alignItems: "flex-start",
     alignSelf: "center",

@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ACROSTIC_SCREEN } from "../constants/NavigationConstants";
 import { PUZZLE_TEXT } from "../puzzles/2023-05-21";
 import { SQUARE_ROW_LENGTH } from "../constants/GridConstants";
 import PuzzleGrid from "./PuzzleGrid";
@@ -20,7 +19,7 @@ import {
   AcrosticGridData,
 } from "../puzzle_logic/AcrosticPuzzleData";
 import Keyboard from "./keyboard/Keyboard";
-import { TabView, SceneMap } from "react-native-tab-view";
+import PagerView from "react-native-pager-view";
 import parseAcrosticPuzzle from "../puzzle_logic/PuzzleParser";
 
 enum PuzzleSection {
@@ -41,37 +40,21 @@ const PuzzleMain: React.FC<PuzzleMainProps> = () => {
   ]);
   let gridRows = generateGridRows(puzzle);
 
-  // const grid = () => (
-  //   <PuzzleGrid
-  //     gridRows={gridRows}
-  //     userEntries={userEntries}
-  //     highlightedSquareNumber={highlightedSquareNumber}
-  //     setHighlightedSquareNumber={setHighlightedSquareNumber}
-  //   />
-  // );
-  const clueView = () => <PuzzleCluesView puzzle={puzzle} />;
-
-  // const layout = useWindowDimensions();
-  // const renderScene = SceneMap({
-  //   [PuzzleSection.Grid]: grid,
-  //   [PuzzleSection.Clues]: clueView,
-  // });
-
   return (
     <View style={styles.container}>
-      <PuzzleGrid
-      gridRows={gridRows}
-      userEntries={userEntries}
-      highlightedSquareNumber={highlightedSquareNumber}
-      setHighlightedSquareNumber={setHighlightedSquareNumber}
-    />
-      {/* <TabView
-        navigationState={{ index: tabIndex, routes }}
-        renderScene={renderScene}
-        onIndexChange={setTabIndex}
-        renderTabBar={() => null}
-        initialLayout={{ width: layout.width }}
-      /> */}
+      <PagerView style={styles.pager} initialPage={0}>
+        <View key="1">
+          <PuzzleGrid
+            gridRows={gridRows}
+            userEntries={userEntries}
+            highlightedSquareNumber={highlightedSquareNumber}
+            setHighlightedSquareNumber={setHighlightedSquareNumber}
+          />
+        </View>
+        <View key="2">
+          <PuzzleCluesView puzzle={puzzle} />
+        </View>
+      </PagerView>
       <View style={styles.keyboardContainer}>
         <Keyboard />
       </View>
@@ -108,6 +91,9 @@ interface PuzzleMainProps {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  pager: {
     flex: 1,
   },
   keyboardContainer: {
