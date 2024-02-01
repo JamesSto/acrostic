@@ -49,7 +49,7 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
           onPress={() => {
             pagerSectionRef.current?.setPage(selectedSection == PuzzleSection.Grid ? 1 : 0);
           }}
-          title={selectedSection}
+          title={"See " + (selectedSection == PuzzleSection.Grid ? PuzzleSection.Clues : PuzzleSection.Grid)}
         />
       ),
     });
