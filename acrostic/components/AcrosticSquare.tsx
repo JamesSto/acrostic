@@ -41,7 +41,7 @@ export const AcrosticSquare: React.FC<AcrosticSquareProps> = memo(
           <Text style={[styles.clueLetter, styles.squareLabel]}>
             {squareData.clueLetter}
           </Text>
-          <Text style={styles.answerLetter}>{squareData.answerLetter}</Text>
+          <Text style={styles.answerLetter}>{userEntry}</Text>
         </View>
       </Pressable>
     );

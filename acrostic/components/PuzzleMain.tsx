@@ -47,23 +47,37 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
       headerRight: () => (
         <Button
           onPress={() => {
-            pagerSectionRef.current?.setPage(selectedSection == PuzzleSection.Grid ? 1 : 0);
+            pagerSectionRef.current?.setPage(
+              selectedSection == PuzzleSection.Grid ? 1 : 0
+            );
           }}
-          title={"See " + (selectedSection == PuzzleSection.Grid ? PuzzleSection.Clues : PuzzleSection.Grid)}
+          title={
+            "See " +
+            (selectedSection == PuzzleSection.Grid
+              ? PuzzleSection.Clues
+              : PuzzleSection.Grid)
+          }
         />
       ),
     });
   }, [navigation, selectedSection]);
 
   const handlePageChange = (e: any) => {
-    setSelectedSection(e.nativeEvent.position == 0 ? PuzzleSection.Grid : PuzzleSection.Clues);
+    setSelectedSection(
+      e.nativeEvent.position == 0 ? PuzzleSection.Grid : PuzzleSection.Clues
+    );
   };
 
   let gridRows = generateGridRows(puzzle);
 
   return (
     <View style={styles.container}>
-      <PagerView style={styles.pager} initialPage={0} ref={pagerSectionRef} onPageSelected={handlePageChange}>
+      <PagerView
+        style={styles.pager}
+        initialPage={0}
+        ref={pagerSectionRef}
+        onPageSelected={handlePageChange}
+      >
         <View key="1">
           <PuzzleGrid
             gridRows={gridRows}
@@ -73,7 +87,12 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
           />
         </View>
         <View key="2">
-          <PuzzleCluesView puzzle={puzzle} />
+          <PuzzleCluesView
+            puzzle={puzzle}
+            userEntries={userEntries}
+            highlightedSquareNumber={highlightedSquareNumber}
+            setHighlightedSquareNumber={setHighlightedSquareNumber}
+          />
         </View>
       </PagerView>
       <View style={styles.keyboardContainer}>
