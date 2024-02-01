@@ -96,7 +96,12 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
         </View>
       </PagerView>
       <View style={styles.keyboardContainer}>
-        <Keyboard />
+        <Keyboard
+          userEntries={userEntries}
+          setUserEntries={setUserEntries}
+          highlightedSquareNumber={highlightedSquareNumber}
+          setHighlightedSquareNumber={setHighlightedSquareNumber}
+        />
       </View>
     </View>
   );
