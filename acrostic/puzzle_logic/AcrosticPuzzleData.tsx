@@ -44,13 +44,13 @@ export class AcrosticClueData {
 export class AcrosticSquareData {
     public answerLetter: string;
     public clueLetter: string;
-    public squareNumber: number;
+    public squareNum: number;
     public isBlack: boolean;
 
-    constructor(answerLetter: string, clueLetter: string, squareNumber: number) {
+    constructor(answerLetter: string, clueLetter: string, squareNum: number) {
         this.answerLetter = answerLetter;
         this.clueLetter = clueLetter;
-        this.squareNumber = squareNumber;
+        this.squareNum = squareNum;
         this.isBlack = answerLetter == "" && clueLetter == "";
     }
 
@@ -59,6 +59,6 @@ export class AcrosticSquareData {
     }
 
     public equals(other: AcrosticSquareData): boolean {
-        return this.answerLetter == other.answerLetter && this.clueLetter == other.clueLetter && this.squareNumber == other.squareNumber;
+        return this.answerLetter == other.answerLetter && this.clueLetter == other.clueLetter && this.squareNum == other.squareNum;
     }
 }

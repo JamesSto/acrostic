@@ -13,8 +13,8 @@ const PuzzleCluesView: React.FC<Props> = memo(
   ({
     puzzle,
     userEntries,
-    highlightedSquareNumber,
-    setHighlightedSquareNumber,
+    highlightedSquareNum,
+    setHighlightedSquareNum,
   }) => {
     return (
       <ScrollView>
@@ -24,8 +24,8 @@ const PuzzleCluesView: React.FC<Props> = memo(
               key={index}
               acrosticClueData={clueData}
               userEntries={userEntries}
-              highlightedSquareNumber={highlightedSquareNumber}
-              setHighlightedSquareNumber={setHighlightedSquareNumber}
+              highlightedSquareNum={highlightedSquareNum}
+              setHighlightedSquareNum={setHighlightedSquareNum}
             />
           ))}
         </View>
@@ -37,8 +37,8 @@ const PuzzleCluesView: React.FC<Props> = memo(
 interface Props {
   puzzle: AcrosticPuzzleData;
   userEntries: string[];
-  highlightedSquareNumber: number;
-  setHighlightedSquareNumber: (index: number) => void;
+  highlightedSquareNum: number;
+  setHighlightedSquareNum: (index: number) => void;
 }
 
 const styles = StyleSheet.create({

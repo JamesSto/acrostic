@@ -12,14 +12,14 @@ import {
 const PuzzleClue: React.FC<Props> = ({
   acrosticClueData,
   userEntries,
-  highlightedSquareNumber,
-  setHighlightedSquareNumber,
+  highlightedSquareNum,
+  setHighlightedSquareNum,
 }) => {
   const handleSquarePress = useCallback(
-    (squareNumber: number) => {
-      setHighlightedSquareNumber(squareNumber);
+    (squareNum: number) => {
+      setHighlightedSquareNum(squareNum);
     },
-    [setHighlightedSquareNumber]
+    [setHighlightedSquareNum]
   );
   return (
     <View style={styles.clueContainer}>
@@ -31,10 +31,10 @@ const PuzzleClue: React.FC<Props> = ({
         {acrosticClueData.answer.map((square, index) => (
           <AcrosticSquare
             key={index}
-            userEntry={userEntries[square.squareNumber]}
+            userEntry={userEntries[square.squareNum]}
             squareData={square}
-            isHighlighted={highlightedSquareNumber == square.squareNumber}
-            onSquarePress={() => handleSquarePress(square.squareNumber)}
+            isHighlighted={highlightedSquareNum == square.squareNum}
+            onSquarePress={() => handleSquarePress(square.squareNum)}
           />
         ))}
       </View>
@@ -45,8 +45,8 @@ const PuzzleClue: React.FC<Props> = ({
 interface Props {
   acrosticClueData: AcrosticClueData;
   userEntries: string[];
-  highlightedSquareNumber: number;
-  setHighlightedSquareNumber: (index: number) => void;
+  highlightedSquareNum: number;
+  setHighlightedSquareNum: (index: number) => void;
 }
 
 const styles = StyleSheet.create({

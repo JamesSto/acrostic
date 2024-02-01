@@ -4,21 +4,11 @@ import { LetterButton, BackspaceButton } from "./KeyboardButtons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const Keyboard: React.FC<KeyboardProps> = ({
-  userEntries,
-  setUserEntries,
-  highlightedSquareNumber,
-  setHighlightedSquareNumber,
+  setSquareEntry,
 }) => {
   const topRow = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
   const middleRow = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
   const bottomRow = ["Z", "X", "C", "V", "B", "N", "M"];
-
-  const handleLetterPress = (letter: string) => {
-    console.log(letter, highlightedSquareNumber);
-    const newEntries = [...userEntries];
-    newEntries[highlightedSquareNumber] = letter;
-    setUserEntries(newEntries);
-  };
 
   const handleBackspacePress = () => {
     // Handle backspace press logic here
@@ -31,7 +21,7 @@ const Keyboard: React.FC<KeyboardProps> = ({
           <LetterButton
             key={letter}
             letter={letter}
-            onPress={() => handleLetterPress(letter)}
+            onPress={() => setSquareEntry(letter)}
           />
         ))}
       </View>
@@ -40,7 +30,7 @@ const Keyboard: React.FC<KeyboardProps> = ({
           <LetterButton
             key={letter}
             letter={letter}
-            onPress={() => handleLetterPress(letter)}
+            onPress={() => setSquareEntry(letter)}
           />
         ))}
       </View>
@@ -50,7 +40,7 @@ const Keyboard: React.FC<KeyboardProps> = ({
             <LetterButton
               letter={letter}
               key={letter}
-              onPress={() => handleLetterPress(letter)}
+              onPress={() => setSquareEntry(letter)}
             />
           ))
           .concat([
@@ -62,10 +52,7 @@ const Keyboard: React.FC<KeyboardProps> = ({
 };
 
 interface KeyboardProps {
-  userEntries: string[];
-  setUserEntries: (entries: string[]) => void;
-  highlightedSquareNumber: number;
-  setHighlightedSquareNumber: (index: number) => void;
+    setSquareEntry: (entry: string) => void;
 }
 
 const styles = StyleSheet.create({

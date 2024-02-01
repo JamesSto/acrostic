@@ -24,7 +24,7 @@ let count = 0;
 
 export const AcrosticSquare: React.FC<AcrosticSquareProps> = memo(
   ({ squareData, userEntry, isHighlighted, onSquarePress }) => {
-    console.log(squareData.squareNumber +  " RENDERING");
+    console.log(squareData.squareNum +  " RENDERING");
     return (
       <Pressable
         onPress={onSquarePress}
@@ -35,8 +35,8 @@ export const AcrosticSquare: React.FC<AcrosticSquareProps> = memo(
         ]}
       >
         <View style={styles.content}>
-          <Text style={[styles.squareNumber, styles.squareLabel]}>
-            {squareData.squareNumber}
+          <Text style={[styles.squareNum, styles.squareLabel]}>
+            {squareData.squareNum}
           </Text>
           <Text style={[styles.clueLetter, styles.squareLabel]}>
             {squareData.clueLetter}
@@ -48,7 +48,7 @@ export const AcrosticSquare: React.FC<AcrosticSquareProps> = memo(
   },
   (prevProps, nextProps) => {
     return (
-      prevProps.squareData.squareNumber === nextProps.squareData.squareNumber &&
+      prevProps.squareData.squareNum === nextProps.squareData.squareNum &&
       prevProps.userEntry === nextProps.userEntry &&
       prevProps.isHighlighted === nextProps.isHighlighted
     );
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     top: "-5%",
     color: "#505050",
   },
-  squareNumber: {
+  squareNum: {
     left: "3%",
   },
   clueLetter: {

@@ -15,12 +15,12 @@ const PuzzleGrid: React.FC<Props> = memo(
   ({
     gridRows,
     userEntries,
-    highlightedSquareNumber,
-    setHighlightedSquareNumber,
+    highlightedSquareNum,
+    setHighlightedSquareNum,
   }) => {
-    const handleSquarePress = useCallback((squareNumber: number) => {
-      setHighlightedSquareNumber(squareNumber);
-    }, [setHighlightedSquareNumber]);
+    const handleSquarePress = useCallback((squareNum: number) => {
+      setHighlightedSquareNum(squareNum);
+    }, [setHighlightedSquareNum]);
     return (
       <View style={[styles.grid]}>
         {gridRows.map((row: AcrosticSquareData[], index: number) => (
@@ -31,13 +31,13 @@ const PuzzleGrid: React.FC<Props> = memo(
               } else {
                 return (
                   <AcrosticSquare
-                    key={square.squareNumber + "square"}
+                    key={square.squareNum + "square"}
                     squareData={square}
-                    userEntry={userEntries[square.squareNumber]}
+                    userEntry={userEntries[square.squareNum]}
                     isHighlighted={
-                      highlightedSquareNumber == square.squareNumber
+                      highlightedSquareNum == square.squareNum
                     }
-                    onSquarePress={() => handleSquarePress(square.squareNumber)}
+                    onSquarePress={() => handleSquarePress(square.squareNum)}
                   />
                 );
               }
@@ -52,8 +52,8 @@ const PuzzleGrid: React.FC<Props> = memo(
 interface Props {
   gridRows: AcrosticSquareData[][];
   userEntries: string[];
-  highlightedSquareNumber: number;
-  setHighlightedSquareNumber: (index: number) => void;
+  highlightedSquareNum: number;
+  setHighlightedSquareNum: (index: number) => void;
 }
 
 const styles = StyleSheet.create({

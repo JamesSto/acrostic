@@ -32,7 +32,19 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
   const [userEntries, setUserEntries] = useState<string[]>(
     Array(puzzle.grid.quoteSquares.length + 1).fill("")
   );
-  const [highlightedSquareNumber, setHighlightedSquareNumber] = useState(1);
+  const setSquareEntry = (entry: string) => {
+    const newEntries = [...userEntries];
+    newEntries[highlightedSquareNum] = entry;
+    setUserEntries(newEntries);
+    const newSquareNum = getNextSquareNum(
+      puzzle,
+      highlightedSquareNum,
+      selectedSection
+    );
+    setHighlightedSquareNum(newSquareNum);
+  };
+
+  const [highlightedSquareNum, setHighlightedSquareNum] = useState(1);
   const [tabIndex, setTabIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: PuzzleSection.Grid, title: "Grid" },
@@ -82,29 +94,46 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
           <PuzzleGrid
             gridRows={gridRows}
             userEntries={userEntries}
-            highlightedSquareNumber={highlightedSquareNumber}
-            setHighlightedSquareNumber={setHighlightedSquareNumber}
+            highlightedSquareNum={highlightedSquareNum}
+            setHighlightedSquareNum={setHighlightedSquareNum}
           />
         </View>
         <View key="2">
           <PuzzleCluesView
             puzzle={puzzle}
             userEntries={userEntries}
-            highlightedSquareNumber={highlightedSquareNumber}
-            setHighlightedSquareNumber={setHighlightedSquareNumber}
+            highlightedSquareNum={highlightedSquareNum}
+            setHighlightedSquareNum={setHighlightedSquareNum}
           />
         </View>
       </PagerView>
       <View style={styles.keyboardContainer}>
-        <Keyboard
-          userEntries={userEntries}
-          setUserEntries={setUserEntries}
-          highlightedSquareNumber={highlightedSquareNumber}
-          setHighlightedSquareNumber={setHighlightedSquareNumber}
-        />
+        <Keyboard setSquareEntry={setSquareEntry} />
       </View>
     </View>
   );
+};
+
+const getNextSquareNum = (
+  puzzleData: AcrosticPuzzleData,
+  currSquareNum: number,
+  currSection: PuzzleSection
+): number => {
+  if (currSection === PuzzleSection.Grid) {
+    return (currSquareNum % puzzleData.grid.quoteSquares.length) + 1;
+  } else if (currSection === PuzzleSection.Clues) {
+    const clue = puzzleData.clues.filter((clue) =>
+      clue.answer.some((square) => square.squareNum === currSquareNum)
+    )[0];
+    for (var i = 0; i < clue.answer.length - 1; i++) {
+      if (clue.answer[i].squareNum === currSquareNum) {
+        return clue.answer[i + 1].squareNum;
+      }
+    }
+    // This means we're at the last number of the clue
+    return currSquareNum;
+  }
+  throw new Error("Invalid puzzle section for next square num");
 };
 
 const generateGridRows = (
