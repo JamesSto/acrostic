@@ -22,9 +22,6 @@ const PuzzleGrid: React.FC<Props> = memo(
     highlightedSquareNumber,
     setHighlightedSquareNumber,
   }) => {
-    useEffect(() => {
-      console.log("puzzleGrid useEffect2");
-    }, []);
     const handleSquarePress = useCallback((squareNumber: number) => {
       console.log(squareNumber);
       setHighlightedSquareNumber(squareNumber);

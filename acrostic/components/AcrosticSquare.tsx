@@ -3,7 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
+  Pressable,
   TextInput,
   Dimensions,
 } from "react-native";
@@ -24,11 +24,9 @@ let count = 0;
 
 export const AcrosticSquare: React.FC<AcrosticSquareProps> = memo(
   ({ squareData, userEntry, isHighlighted, onSquarePress }) => {
-    useEffect(() => {
-      console.log("square useEffect");
-    }, []);
+    console.log(squareData.squareNumber +  " RENDERING");
     return (
-      <TouchableOpacity
+      <Pressable
         onPress={onSquarePress}
         style={[
           styles.square,
@@ -45,7 +43,7 @@ export const AcrosticSquare: React.FC<AcrosticSquareProps> = memo(
           </Text>
           <Text style={styles.answerLetter}>{squareData.answerLetter}</Text>
         </View>
-      </TouchableOpacity>
+      </Pressable>
     );
   },
   (prevProps, nextProps) => {
@@ -58,9 +56,6 @@ export const AcrosticSquare: React.FC<AcrosticSquareProps> = memo(
 );
 
 export const BlackSquare: React.FC = memo(() => {
-  useEffect(() => {
-    console.log("blacksquare useEffect");
-  }, []);
   return <View style={[styles.square, styles.blackSquare]} />;
 });
 

@@ -21,13 +21,15 @@ import {
 } from "../puzzle_logic/AcrosticPuzzleData";
 import Keyboard from "./keyboard/Keyboard";
 import { TabView, SceneMap } from "react-native-tab-view";
+import parseAcrosticPuzzle from "../puzzle_logic/PuzzleParser";
 
 enum PuzzleSection {
   Grid = "Grid",
   Clues = "Clues",
 }
 
-const PuzzleMain: React.FC<PuzzleMainProps> = ({ puzzle }) => {
+const PuzzleMain: React.FC<PuzzleMainProps> = () => {
+  const puzzle = parseAcrosticPuzzle(PUZZLE_TEXT);
   const [userEntries, setUserEntries] = useState<string[]>(
     Array(puzzle.grid.quoteSquares.length + 1).fill("")
   );
@@ -37,7 +39,6 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ puzzle }) => {
     { key: PuzzleSection.Grid, title: "Grid" },
     { key: PuzzleSection.Clues, title: "Clues" },
   ]);
-  useEffect(() => { console.log("main useEffect"); }, []);
   let gridRows = generateGridRows(puzzle);
 
   // const grid = () => (
@@ -81,7 +82,6 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ puzzle }) => {
 const generateGridRows = (
   puzzle: AcrosticPuzzleData
 ): AcrosticSquareData[][] => {
-  var startTime = performance.now();
   const flattenedSquares: AcrosticSquareData[] = puzzle.grid.quoteSquares
     .reduce((acc: AcrosticSquareData[], curr: AcrosticSquareData[]) => {
       return acc.concat(curr).concat([AcrosticSquareData.blackSquare()]);
@@ -99,14 +99,11 @@ const generateGridRows = (
       AcrosticSquareData.blackSquare()
     );
   }
-  var endTime = performance.now();
-  console.log(`Set up grid took ${endTime - startTime} milliseconds.`);
   return chunkedSquares;
 };
 
 interface PuzzleMainProps {
   //   navigation: NativeStackNavigationProp<any, any>;
-  puzzle: AcrosticPuzzleData;
 }
 
 const styles = StyleSheet.create({
