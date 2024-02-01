@@ -36,11 +36,11 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
     const newEntries = [...userEntries];
     newEntries[highlightedSquareNum] = entry;
     setUserEntries(newEntries);
-    const newSquareNum = getNextSquareNum(
-      puzzle,
-      highlightedSquareNum,
-      selectedSection
-    );
+    // Empty entry means backspace
+    const newSquareNum =
+      entry === ""
+        ? getPrevSquareNum(puzzle, highlightedSquareNum, selectedSection)
+        : getNextSquareNum(puzzle, highlightedSquareNum, selectedSection);
     setHighlightedSquareNum(newSquareNum);
   };
 
@@ -120,7 +120,31 @@ const getNextSquareNum = (
   currSection: PuzzleSection
 ): number => {
   if (currSection === PuzzleSection.Grid) {
-    return (currSquareNum % puzzleData.grid.quoteSquares.length) + 1;
+    return (currSquareNum % puzzleData.grid.quoteSquares.flat().length) + 1;
+  } else if (currSection === PuzzleSection.Clues) {
+    const clue = puzzleData.clues.filter((clue) =>
+      clue.answer.some((square) => square.squareNum === currSquareNum)
+    )[0];
+    for (var i = 0; i < clue.answer.length - 1; i++) {
+      if (clue.answer[i].squareNum === currSquareNum) {
+        return clue.answer[i + 1].squareNum;
+      }
+    }
+    // This means we're at the last number of the clue
+    return currSquareNum;
+  }
+  throw new Error("Invalid puzzle section for next square num");
+};
+
+const getPrevSquareNum = (
+  puzzleData: AcrosticPuzzleData,
+  currSquareNum: number,
+  currSection: PuzzleSection
+): number => {
+  if (currSection === PuzzleSection.Grid) {
+    return (
+      ((currSquareNum - 2) % puzzleData.grid.quoteSquares.flat().length) + 1
+    );
   } else if (currSection === PuzzleSection.Clues) {
     const clue = puzzleData.clues.filter((clue) =>
       clue.answer.some((square) => square.squareNum === currSquareNum)

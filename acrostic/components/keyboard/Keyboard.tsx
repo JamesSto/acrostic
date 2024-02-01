@@ -10,10 +10,6 @@ const Keyboard: React.FC<KeyboardProps> = ({
   const middleRow = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
   const bottomRow = ["Z", "X", "C", "V", "B", "N", "M"];
 
-  const handleBackspacePress = () => {
-    // Handle backspace press logic here
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.keyboardRow}>
@@ -44,7 +40,7 @@ const Keyboard: React.FC<KeyboardProps> = ({
             />
           ))
           .concat([
-            <BackspaceButton key="backspace" onPress={handleBackspacePress} />,
+            <BackspaceButton key="backspace" onPress={() => setSquareEntry("")} />,
           ])}
       </View>
     </View>
