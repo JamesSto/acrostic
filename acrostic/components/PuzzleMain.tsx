@@ -27,7 +27,7 @@ enum PuzzleSection {
   Clues = "Clues",
 }
 
-const PuzzleMain: React.FC<PuzzleMainProps> = () => {
+const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
   const puzzle = parseAcrosticPuzzle(PUZZLE_TEXT);
   const [userEntries, setUserEntries] = useState<string[]>(
     Array(puzzle.grid.quoteSquares.length + 1).fill("")
@@ -38,11 +38,32 @@ const PuzzleMain: React.FC<PuzzleMainProps> = () => {
     { key: PuzzleSection.Grid, title: "Grid" },
     { key: PuzzleSection.Clues, title: "Clues" },
   ]);
+
+  const pagerSectionRef = useRef<PagerView>(null);
+  const [selectedSection, setSelectedSection] = useState(PuzzleSection.Grid);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          onPress={() => {
+            pagerSectionRef.current?.setPage(selectedSection == PuzzleSection.Grid ? 1 : 0);
+          }}
+          title={selectedSection}
+        />
+      ),
+    });
+  }, [navigation, selectedSection]);
+
+  const handlePageChange = (e: any) => {
+    setSelectedSection(e.nativeEvent.position == 0 ? PuzzleSection.Grid : PuzzleSection.Clues);
+  };
+
   let gridRows = generateGridRows(puzzle);
 
   return (
     <View style={styles.container}>
-      <PagerView style={styles.pager} initialPage={0}>
+      <PagerView style={styles.pager} initialPage={0} ref={pagerSectionRef} onPageSelected={handlePageChange}>
         <View key="1">
           <PuzzleGrid
             gridRows={gridRows}
@@ -86,7 +107,7 @@ const generateGridRows = (
 };
 
 interface PuzzleMainProps {
-  //   navigation: NativeStackNavigationProp<any, any>;
+  navigation: NativeStackNavigationProp<any, any>;
 }
 
 const styles = StyleSheet.create({
