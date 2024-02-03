@@ -87,7 +87,6 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
       setSelectedPage(PuzzlePage.Clues);
       setSelectedSection(PuzzleSection.CluePage);
     }
-
   };
 
   return (
@@ -117,9 +116,7 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
           />
         </View>
       </PagerView>
-      <View style={styles.keyboardContainer}>
-        <Keyboard setSquareEntry={setSquareEntry} />
-      </View>
+      <Keyboard setSquareEntry={setSquareEntry} />
     </View>
   );
 };
@@ -197,10 +194,6 @@ const styles = StyleSheet.create({
   },
   pager: {
     flex: 1,
-  },
-  keyboardContainer: {
-    position: "absolute",
-    bottom: 0,
   },
 });
 
