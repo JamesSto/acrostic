@@ -8,6 +8,7 @@ import PuzzleClue from "./PuzzleClue";
 import parseAcrosticPuzzle from "../puzzle_logic/PuzzleParser";
 import { PUZZLE_TEXT } from "../puzzles/2023-05-21";
 import { AcrosticPuzzleData } from "../puzzle_logic/AcrosticPuzzleData";
+import { PuzzleSection } from "../constants/GridConstants";
 
 const PuzzleCluesView: React.FC<Props> = memo(
   ({
@@ -15,6 +16,7 @@ const PuzzleCluesView: React.FC<Props> = memo(
     userEntries,
     highlightedSquareNum,
     setHighlightedSquareNum,
+    setSelectedSection
   }) => {
     return (
       <ScrollView>
@@ -26,6 +28,7 @@ const PuzzleCluesView: React.FC<Props> = memo(
               userEntries={userEntries}
               highlightedSquareNum={highlightedSquareNum}
               setHighlightedSquareNum={setHighlightedSquareNum}
+              setSelectedSection={setSelectedSection}
             />
           ))}
         </View>
@@ -39,6 +42,7 @@ interface Props {
   userEntries: string[];
   highlightedSquareNum: number;
   setHighlightedSquareNum: (index: number) => void;
+  setSelectedSection: (puzzleSection: PuzzleSection) => void;
 }
 
 const styles = StyleSheet.create({

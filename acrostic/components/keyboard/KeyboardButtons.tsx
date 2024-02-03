@@ -19,7 +19,9 @@ const LetterButton: React.FC<LetterButtonProps> = ({ letter, onPress }) => {
     return (
         <Pressable 
             style={[styles.button, styles.letterButton]} 
-            hitSlop={2} onPress={onPress} 
+            hitSlop={2} 
+            onPress={onPress} 
+            unstable_pressDelay={0}
             onPressIn={() => setIsPressed(true)} 
             onPressOut={() => setIsPressed(false)}
         >

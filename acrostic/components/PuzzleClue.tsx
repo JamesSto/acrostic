@@ -8,16 +8,19 @@ import {
   AcrosticClueData,
   AcrosticSquareData,
 } from "../puzzle_logic/AcrosticPuzzleData";
+import { PuzzleSection } from "../constants/GridConstants";
 
-const PuzzleClue: React.FC<Props> = ({
+const PuzzleClue: React.FC<PuzzleClueProps> = ({
   acrosticClueData,
   userEntries,
   highlightedSquareNum,
   setHighlightedSquareNum,
+  setSelectedSection
 }) => {
   const handleSquarePress = useCallback(
     (squareNum: number) => {
       setHighlightedSquareNum(squareNum);
+      setSelectedSection(PuzzleSection.CluePage)
     },
     [setHighlightedSquareNum]
   );
@@ -42,11 +45,12 @@ const PuzzleClue: React.FC<Props> = ({
   );
 };
 
-interface Props {
+interface PuzzleClueProps {
   acrosticClueData: AcrosticClueData;
   userEntries: string[];
   highlightedSquareNum: number;
   setHighlightedSquareNum: (index: number) => void;
+  setSelectedSection: (puzzleSection: PuzzleSection) => void;
 }
 
 const styles = StyleSheet.create({

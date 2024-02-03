@@ -10,7 +10,7 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { PUZZLE_TEXT } from "../puzzles/2023-05-21";
-import { SQUARE_ROW_LENGTH } from "../constants/GridConstants";
+import { PuzzleSection, SQUARE_ROW_LENGTH } from "../constants/GridConstants";
 import PuzzleGrid from "./PuzzleGrid";
 import PuzzleCluesView from "./PuzzleCluesView";
 import {
@@ -22,7 +22,7 @@ import Keyboard from "./keyboard/Keyboard";
 import PagerView from "react-native-pager-view";
 import parseAcrosticPuzzle from "../puzzle_logic/PuzzleParser";
 
-enum PuzzleSection {
+enum PuzzlePage {
   Grid = "Grid",
   Clues = "Clues",
 }
@@ -32,6 +32,20 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
   const [userEntries, setUserEntries] = useState<string[]>(
     Array(puzzle.grid.quoteSquares.length + 1).fill("")
   );
+
+  const [highlightedSquareNum, setHighlightedSquareNum] = useState(1);
+  const [tabIndex, setTabIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: PuzzlePage.Grid, title: "Grid" },
+    { key: PuzzlePage.Clues, title: "Clues" },
+  ]);
+
+  const pagerSectionRef = useRef<PagerView>(null);
+  const [selectedPage, setSelectedPage] = useState(PuzzlePage.Grid);
+  const [selectedSection, setSelectedSection] = useState(
+    PuzzleSection.MainGrid
+  );
+
   const setSquareEntry = (entry: string) => {
     const newEntries = [...userEntries];
     newEntries[highlightedSquareNum] = entry;
@@ -41,18 +55,9 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
       entry === ""
         ? getPrevSquareNum(puzzle, highlightedSquareNum, selectedSection)
         : getNextSquareNum(puzzle, highlightedSquareNum, selectedSection);
+    console.log("new square " + newSquareNum);
     setHighlightedSquareNum(newSquareNum);
   };
-
-  const [highlightedSquareNum, setHighlightedSquareNum] = useState(1);
-  const [tabIndex, setTabIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: PuzzleSection.Grid, title: "Grid" },
-    { key: PuzzleSection.Clues, title: "Clues" },
-  ]);
-
-  const pagerSectionRef = useRef<PagerView>(null);
-  const [selectedSection, setSelectedSection] = useState(PuzzleSection.Grid);
 
   useEffect(() => {
     navigation.setOptions({
@@ -60,27 +65,30 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
         <Button
           onPress={() => {
             pagerSectionRef.current?.setPage(
-              selectedSection == PuzzleSection.Grid ? 1 : 0
+              selectedPage == PuzzlePage.Grid ? 1 : 0
             );
           }}
           title={
             "See " +
-            (selectedSection == PuzzleSection.Grid
-              ? PuzzleSection.Clues
-              : PuzzleSection.Grid)
+            (selectedPage == PuzzlePage.Grid
+              ? PuzzlePage.Clues
+              : PuzzlePage.Grid)
           }
         />
       ),
     });
-  }, [navigation, selectedSection]);
+  }, [navigation, selectedPage]);
 
   const handlePageChange = (e: any) => {
-    setSelectedSection(
-      e.nativeEvent.position == 0 ? PuzzleSection.Grid : PuzzleSection.Clues
-    );
-  };
+    if (e.nativeEvent.position == 0) {
+      setSelectedPage(PuzzlePage.Grid);
+      setSelectedSection(PuzzleSection.MainGrid);
+    } else {
+      setSelectedPage(PuzzlePage.Clues);
+      setSelectedSection(PuzzleSection.CluePage);
+    }
 
-  let gridRows = generateGridRows(puzzle);
+  };
 
   return (
     <View style={styles.container}>
@@ -92,10 +100,11 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
       >
         <View key="1">
           <PuzzleGrid
-            gridRows={gridRows}
+            puzzle={puzzle}
             userEntries={userEntries}
             highlightedSquareNum={highlightedSquareNum}
             setHighlightedSquareNum={setHighlightedSquareNum}
+            setSelectedSection={setSelectedSection}
           />
         </View>
         <View key="2">
@@ -104,6 +113,7 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
             userEntries={userEntries}
             highlightedSquareNum={highlightedSquareNum}
             setHighlightedSquareNum={setHighlightedSquareNum}
+            setSelectedSection={setSelectedSection}
           />
         </View>
       </PagerView>
@@ -119,15 +129,24 @@ const getNextSquareNum = (
   currSquareNum: number,
   currSection: PuzzleSection
 ): number => {
-  if (currSection === PuzzleSection.Grid) {
+  if (currSection === PuzzleSection.MainGrid) {
     return (currSquareNum % puzzleData.grid.quoteSquares.flat().length) + 1;
-  } else if (currSection === PuzzleSection.Clues) {
+  } else if (currSection === PuzzleSection.CluePage) {
     const clue = puzzleData.clues.filter((clue) =>
       clue.answer.some((square) => square.squareNum === currSquareNum)
     )[0];
     for (var i = 0; i < clue.answer.length - 1; i++) {
       if (clue.answer[i].squareNum === currSquareNum) {
         return clue.answer[i + 1].squareNum;
+      }
+    }
+    // This means we're at the last number of the clue
+    return currSquareNum;
+  } else if (currSection === PuzzleSection.AuthorGrid) {
+    let authorSquares = puzzleData.grid.authorSquares;
+    for (var i = 0; i < authorSquares.length - 1; i++) {
+      if (authorSquares[i].squareNum === currSquareNum) {
+        return authorSquares[i + 1].squareNum;
       }
     }
     // This means we're at the last number of the clue
@@ -141,46 +160,31 @@ const getPrevSquareNum = (
   currSquareNum: number,
   currSection: PuzzleSection
 ): number => {
-  if (currSection === PuzzleSection.Grid) {
+  if (currSection === PuzzleSection.MainGrid) {
+    const numSquares = puzzleData.grid.quoteSquares.flat().length;
     return (
-      ((currSquareNum - 2) % puzzleData.grid.quoteSquares.flat().length) + 1
+      ((currSquareNum - 2 + numSquares) %
+        puzzleData.grid.quoteSquares.flat().length) +
+      1
     );
-  } else if (currSection === PuzzleSection.Clues) {
+  } else if (currSection === PuzzleSection.CluePage) {
     const clue = puzzleData.clues.filter((clue) =>
       clue.answer.some((square) => square.squareNum === currSquareNum)
     )[0];
-    for (var i = 0; i < clue.answer.length - 1; i++) {
+    for (var i = clue.answer.length - 1; i >= 1; i--) {
       if (clue.answer[i].squareNum === currSquareNum) {
-        return clue.answer[i + 1].squareNum;
+        return clue.answer[i - 1].squareNum;
       }
     }
-    // This means we're at the last number of the clue
-    return currSquareNum;
+  } else if (currSection === PuzzleSection.AuthorGrid) {
+    let authorSquares = puzzleData.grid.authorSquares;
+    for (var i = authorSquares.length - 1; i >= 1; i--) {
+      if (authorSquares[i].squareNum === currSquareNum) {
+        return authorSquares[i - 1].squareNum;
+      }
+    }
   }
-  throw new Error("Invalid puzzle section for next square num");
-};
-
-const generateGridRows = (
-  puzzle: AcrosticPuzzleData
-): AcrosticSquareData[][] => {
-  const flattenedSquares: AcrosticSquareData[] = puzzle.grid.quoteSquares
-    .reduce((acc: AcrosticSquareData[], curr: AcrosticSquareData[]) => {
-      return acc.concat(curr).concat([AcrosticSquareData.blackSquare()]);
-    }, [])
-    .slice(0, -1);
-
-  let chunkedSquares: AcrosticSquareData[][] = [];
-  // Chunk array into size SQUARE_ROW_LENGTH
-  for (let i = 0; i < flattenedSquares.length; i += SQUARE_ROW_LENGTH) {
-    chunkedSquares.push(flattenedSquares.slice(i, i + SQUARE_ROW_LENGTH));
-  }
-  // Pad the final row with black squares
-  while (chunkedSquares[chunkedSquares.length - 1].length < SQUARE_ROW_LENGTH) {
-    chunkedSquares[chunkedSquares.length - 1].push(
-      AcrosticSquareData.blackSquare()
-    );
-  }
-  return chunkedSquares;
+  return currSquareNum;
 };
 
 interface PuzzleMainProps {

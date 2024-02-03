@@ -18,13 +18,20 @@ interface AcrosticSquareProps {
   userEntry: string;
   isHighlighted: boolean;
   onSquarePress: () => void;
+  showNumber?: boolean;
 }
 
 let count = 0;
 
 export const AcrosticSquare: React.FC<AcrosticSquareProps> = memo(
-  ({ squareData, userEntry, isHighlighted, onSquarePress }) => {
-    console.log(squareData.squareNum +  " RENDERING");
+  ({
+    squareData,
+    userEntry,
+    isHighlighted,
+    onSquarePress,
+    showNumber = true,
+  }) => {
+    console.log(squareData.squareNum + " RENDERING");
     return (
       <Pressable
         onPress={onSquarePress}
@@ -35,7 +42,7 @@ export const AcrosticSquare: React.FC<AcrosticSquareProps> = memo(
         ]}
       >
         <View style={styles.content}>
-          <Text style={[styles.squareNum, styles.squareLabel]}>
+          <Text style={[styles.squareNum, styles.squareLabel, !showNumber && styles.hidden]}>
             {squareData.squareNum}
           </Text>
           <Text style={[styles.clueLetter, styles.squareLabel]}>
@@ -105,4 +112,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "500",
   },
+  hidden: {
+    display: "none",
+  }
 });
