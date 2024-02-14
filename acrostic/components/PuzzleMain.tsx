@@ -5,7 +5,9 @@ import {
   Text,
   View,
   Button,
+  TextInput,
   useWindowDimensions,
+  Keyboard
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -18,7 +20,7 @@ import {
   AcrosticSquareData,
   AcrosticGridData,
 } from "../puzzle_logic/AcrosticPuzzleData";
-import Keyboard from "./keyboard/Keyboard";
+import DummyInputKeyboard from "./keyboard/DummyInputKeyboard";
 import PagerView from "react-native-pager-view";
 import parseAcrosticPuzzle from "../puzzle_logic/PuzzleParser";
 
@@ -46,6 +48,8 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
     PuzzleSection.MainGrid
   );
 
+  const textInputRef = useRef<TextInput>(null);
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -66,6 +70,14 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
     });
   }, [navigation, selectedPage]);
 
+  const changeHighlightedSquare = (squareNum: number) => {
+    setHighlightedSquareNum(squareNum);
+    if (!Keyboard.isVisible()) {
+      textInputRef.current?.blur();
+      textInputRef.current?.focus();
+    }
+  }
+
   const setSquareEntry = (entry: string) => {
     const newEntries = [...userEntries];
     newEntries[highlightedSquareNum] = entry;
@@ -76,7 +88,7 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
         ? getPrevSquareNum(puzzle, highlightedSquareNum, selectedSection)
         : getNextSquareNum(puzzle, highlightedSquareNum, selectedSection);
     console.log("new square " + newSquareNum);
-    setHighlightedSquareNum(newSquareNum);
+    changeHighlightedSquare(newSquareNum);
   };
 
   const handlePageChange = (e: any) => {
@@ -91,6 +103,7 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <DummyInputKeyboard setSquareEntry={setSquareEntry} inputRef={textInputRef} />
       <PagerView
         style={styles.pager}
         initialPage={0}
@@ -102,7 +115,7 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
             puzzle={puzzle}
             userEntries={userEntries}
             highlightedSquareNum={highlightedSquareNum}
-            setHighlightedSquareNum={setHighlightedSquareNum}
+            setHighlightedSquareNum={changeHighlightedSquare}
             setSelectedSection={setSelectedSection}
           />
         </View>
@@ -111,12 +124,11 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
             puzzle={puzzle}
             userEntries={userEntries}
             highlightedSquareNum={highlightedSquareNum}
-            setHighlightedSquareNum={setHighlightedSquareNum}
+            setHighlightedSquareNum={changeHighlightedSquare}
             setSelectedSection={setSelectedSection}
           />
         </View>
       </PagerView>
-      <Keyboard setSquareEntry={setSquareEntry} />
     </View>
   );
 };

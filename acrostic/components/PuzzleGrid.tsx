@@ -31,6 +31,14 @@ const PuzzleGrid: React.FC<PuzzleGridProps> = memo(
 
     return (
       <View style={styles.container}>
+                  <ActiveClue
+            puzzle={puzzle}
+            userEntries={userEntries}
+            highlightedSquareNum={highlightedSquareNum}
+            handleSquarePress={handleSquarePress}
+            setHighlightedSquareNum={setHighlightedSquareNum}
+            setSelectedSection={setSelectedSection}
+          />
         <View style={styles.gridContainer}>
           <MainGrid
             puzzle={puzzle}
@@ -45,14 +53,6 @@ const PuzzleGrid: React.FC<PuzzleGridProps> = memo(
             handleSquarePress={handleSquarePress}
           />
         </View>
-        <ActiveClue
-          puzzle={puzzle}
-          userEntries={userEntries}
-          highlightedSquareNum={highlightedSquareNum}
-          handleSquarePress={handleSquarePress}
-          setHighlightedSquareNum={setHighlightedSquareNum}
-          setSelectedSection={setSelectedSection}
-        />
       </View>
     );
   }
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   activeClue: {
-    width: '100%',
+    width: "100%",
     padding: 8,
     alignItems: "flex-start",
     alignSelf: "flex-start",
