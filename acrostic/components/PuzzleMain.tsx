@@ -46,19 +46,6 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
     PuzzleSection.MainGrid
   );
 
-  const setSquareEntry = (entry: string) => {
-    const newEntries = [...userEntries];
-    newEntries[highlightedSquareNum] = entry;
-    setUserEntries(newEntries);
-    // Empty entry means backspace
-    const newSquareNum =
-      entry === ""
-        ? getPrevSquareNum(puzzle, highlightedSquareNum, selectedSection)
-        : getNextSquareNum(puzzle, highlightedSquareNum, selectedSection);
-    console.log("new square " + newSquareNum);
-    setHighlightedSquareNum(newSquareNum);
-  };
-
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -78,6 +65,19 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
       ),
     });
   }, [navigation, selectedPage]);
+
+  const setSquareEntry = (entry: string) => {
+    const newEntries = [...userEntries];
+    newEntries[highlightedSquareNum] = entry;
+    setUserEntries(newEntries);
+    // Empty entry means backspace
+    const newSquareNum =
+      entry === ""
+        ? getPrevSquareNum(puzzle, highlightedSquareNum, selectedSection)
+        : getNextSquareNum(puzzle, highlightedSquareNum, selectedSection);
+    console.log("new square " + newSquareNum);
+    setHighlightedSquareNum(newSquareNum);
+  };
 
   const handlePageChange = (e: any) => {
     if (e.nativeEvent.position == 0) {
@@ -129,9 +129,7 @@ const getNextSquareNum = (
   if (currSection === PuzzleSection.MainGrid) {
     return (currSquareNum % puzzleData.grid.quoteSquares.flat().length) + 1;
   } else if (currSection === PuzzleSection.CluePage) {
-    const clue = puzzleData.clues.filter((clue) =>
-      clue.answer.some((square) => square.squareNum === currSquareNum)
-    )[0];
+    const clue = puzzleData.getClueForSquare(currSquareNum);
     for (var i = 0; i < clue.answer.length - 1; i++) {
       if (clue.answer[i].squareNum === currSquareNum) {
         return clue.answer[i + 1].squareNum;

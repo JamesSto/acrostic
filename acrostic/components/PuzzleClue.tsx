@@ -15,17 +15,17 @@ const PuzzleClue: React.FC<PuzzleClueProps> = ({
   userEntries,
   highlightedSquareNum,
   setHighlightedSquareNum,
-  setSelectedSection
+  setSelectedSection,
 }) => {
   const handleSquarePress = useCallback(
     (squareNum: number) => {
       setHighlightedSquareNum(squareNum);
-      setSelectedSection(PuzzleSection.CluePage)
+      setSelectedSection(PuzzleSection.CluePage);
     },
     [setHighlightedSquareNum]
   );
   return (
-    <View style={styles.clueContainer}>
+    <View>
       <View style={styles.clueLabelContainer}>
         <Text style={styles.clueLetter}>{acrosticClueData.letter}.</Text>
         <Text style={styles.clueText}>{acrosticClueData.clue}</Text>
@@ -54,9 +54,6 @@ interface PuzzleClueProps {
 }
 
 const styles = StyleSheet.create({
-  clueContainer: {
-    marginBottom: 14,
-  },
   clueLabelContainer: {
     flexDirection: "row",
     marginBottom: 5,

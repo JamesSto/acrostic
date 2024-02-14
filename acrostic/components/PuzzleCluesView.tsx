@@ -16,20 +16,21 @@ const PuzzleCluesView: React.FC<Props> = memo(
     userEntries,
     highlightedSquareNum,
     setHighlightedSquareNum,
-    setSelectedSection
+    setSelectedSection,
   }) => {
     return (
       <ScrollView>
         <View style={styles.container}>
           {puzzle.clues.map((clueData, index) => (
-            <PuzzleClue
-              key={index}
-              acrosticClueData={clueData}
-              userEntries={userEntries}
-              highlightedSquareNum={highlightedSquareNum}
-              setHighlightedSquareNum={setHighlightedSquareNum}
-              setSelectedSection={setSelectedSection}
-            />
+            <View style={styles.clueContainer} key={index}>
+              <PuzzleClue
+                acrosticClueData={clueData}
+                userEntries={userEntries}
+                highlightedSquareNum={highlightedSquareNum}
+                setHighlightedSquareNum={setHighlightedSquareNum}
+                setSelectedSection={setSelectedSection}
+              />
+            </View>
           ))}
         </View>
       </ScrollView>
@@ -51,6 +52,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: "flex-start",
     justifyContent: "flex-start",
+  },
+  clueContainer: {
+    marginBottom: 14,
   },
 });
 

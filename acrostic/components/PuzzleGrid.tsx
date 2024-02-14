@@ -11,9 +11,16 @@ import {
   AcrosticSquareData,
 } from "../puzzle_logic/AcrosticPuzzleData";
 import { SQUARE_ROW_LENGTH, PuzzleSection } from "../constants/GridConstants";
+import PuzzleClue from "./PuzzleClue";
 
 const PuzzleGrid: React.FC<PuzzleGridProps> = memo(
-  ({ puzzle, userEntries, highlightedSquareNum, setHighlightedSquareNum, setSelectedSection }) => {
+  ({
+    puzzle,
+    userEntries,
+    highlightedSquareNum,
+    setHighlightedSquareNum,
+    setSelectedSection,
+  }) => {
     const handleSquarePress = useCallback(
       (squareNum: number, puzzleSection: PuzzleSection) => {
         setHighlightedSquareNum(squareNum);
@@ -23,18 +30,28 @@ const PuzzleGrid: React.FC<PuzzleGridProps> = memo(
     );
 
     return (
-      <View style={styles.gridContainer}>
-        <MainGrid
+      <View style={styles.container}>
+        <View style={styles.gridContainer}>
+          <MainGrid
+            puzzle={puzzle}
+            userEntries={userEntries}
+            highlightedSquareNum={highlightedSquareNum}
+            handleSquarePress={handleSquarePress}
+          />
+          <AuthorGrid
+            puzzle={puzzle}
+            userEntries={userEntries}
+            highlightedSquareNum={highlightedSquareNum}
+            handleSquarePress={handleSquarePress}
+          />
+        </View>
+        <ActiveClue
           puzzle={puzzle}
           userEntries={userEntries}
           highlightedSquareNum={highlightedSquareNum}
           handleSquarePress={handleSquarePress}
-        />
-        <AuthorGrid
-          puzzle={puzzle}
-          userEntries={userEntries}
-          highlightedSquareNum={highlightedSquareNum}
-          handleSquarePress={handleSquarePress}
+          setHighlightedSquareNum={setHighlightedSquareNum}
+          setSelectedSection={setSelectedSection}
         />
       </View>
     );
@@ -59,13 +76,37 @@ const AuthorGrid: React.FC<AuthorGridProps> = ({
                 squareData={square}
                 userEntry={userEntries[square.squareNum]}
                 isHighlighted={highlightedSquareNum === square.squareNum}
-                onSquarePress={() => handleSquarePress(square.squareNum, PuzzleSection.AuthorGrid)}
+                onSquarePress={() =>
+                  handleSquarePress(square.squareNum, PuzzleSection.AuthorGrid)
+                }
                 showNumber={false}
               />
             );
           })}
         </View>
       ))}
+    </View>
+  );
+};
+
+const ActiveClue: React.FC<ActiveClueProps> = ({
+  puzzle,
+  userEntries,
+  highlightedSquareNum,
+  setHighlightedSquareNum,
+  setSelectedSection,
+  handleSquarePress,
+}) => {
+  const clue = puzzle.getClueForSquare(highlightedSquareNum);
+  return (
+    <View style={styles.activeClue}>
+      <PuzzleClue
+        acrosticClueData={clue}
+        userEntries={userEntries}
+        highlightedSquareNum={highlightedSquareNum}
+        setHighlightedSquareNum={setHighlightedSquareNum}
+        setSelectedSection={setSelectedSection}
+      />
     </View>
   );
 };
@@ -106,7 +147,9 @@ const MainGrid: React.FC<MainGridProps> = ({
                   squareData={square}
                   userEntry={userEntries[square.squareNum]}
                   isHighlighted={highlightedSquareNum === square.squareNum}
-                  onSquarePress={() => handleSquarePress(square.squareNum, PuzzleSection.MainGrid)}
+                  onSquarePress={() =>
+                    handleSquarePress(square.squareNum, PuzzleSection.MainGrid)
+                  }
                 />
               );
             }
@@ -154,6 +197,15 @@ interface AuthorGridProps {
   handleSquarePress: (squareNum: number, puzzleSection: PuzzleSection) => void;
 }
 
+interface ActiveClueProps {
+  puzzle: AcrosticPuzzleData;
+  userEntries: string[];
+  highlightedSquareNum: number;
+  handleSquarePress: (squareNum: number, puzzleSection: PuzzleSection) => void;
+  setHighlightedSquareNum: (index: number) => void;
+  setSelectedSection: (puzzleSection: PuzzleSection) => void;
+}
+
 interface PuzzleGridProps {
   puzzle: AcrosticPuzzleData;
   userEntries: string[];
@@ -164,21 +216,17 @@ interface PuzzleGridProps {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     flexDirection: "column",
-    alignItems: "center",
-    paddingTop: "30%",
   },
-  word: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-  },
-  mainGrid: {
+  gridContainer: {
+    marginTop: 12,
+    flex: 1,
     flexDirection: "column",
     alignItems: "flex-start",
     alignSelf: "center",
   },
-  gridContainer: {
-    marginTop: 12,
+  mainGrid: {
     flexDirection: "column",
     alignItems: "flex-start",
     alignSelf: "center",
@@ -188,6 +236,16 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "flex-start",
     alignSelf: "center",
+  },
+  activeClue: {
+    width: '100%',
+    padding: 8,
+    alignItems: "flex-start",
+    alignSelf: "flex-start",
+  },
+  word: {
+    flexDirection: "row",
+    alignItems: "flex-start",
   },
 });
 

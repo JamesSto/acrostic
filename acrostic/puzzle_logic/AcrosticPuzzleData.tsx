@@ -4,6 +4,7 @@ export class AcrosticPuzzleData {
     public quote: string;
     public clues: AcrosticClueData[];
     public grid: AcrosticGridData;
+    public squareToClue: Map<number, AcrosticClueData>;
 
     constructor(title: string, author: string, quote: string, clues: AcrosticClueData[], grid: AcrosticGridData) {
         this.title = title;
@@ -11,11 +12,29 @@ export class AcrosticPuzzleData {
         this.quote = quote;
         this.clues = clues;
         this.grid = grid;
+        this.squareToClue = new Map<number, AcrosticClueData>();
+        this.populateSquareToClueMap(); 
+    }
+
+    public getClueForSquare(squareNum: number): AcrosticClueData {
+        const clue = this.squareToClue.get(squareNum);
+        if (clue === undefined) {
+            throw new Error("Could not find clue for squareNum " + squareNum);
+        }
+        return clue;
     }
 
     public equals(other: AcrosticPuzzleData): boolean {
         console.log(this.title == other.title && this.author == other.author);
         return this.title == other.title && this.author == other.author;
+    }
+
+    private populateSquareToClueMap(): void {
+        this.clues.forEach(clue => {
+            clue.answer.forEach(square => {
+                this.squareToClue.set(square.squareNum, clue);
+            });
+        });
     }
 }
 
