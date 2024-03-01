@@ -72,6 +72,7 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
 
   const changeHighlightedSquare = (squareNum: number) => {
     setHighlightedSquareNum(squareNum);
+    console.log(Keyboard.isVisible());
     if (!Keyboard.isVisible()) {
       textInputRef.current?.blur();
       textInputRef.current?.focus();
@@ -94,7 +95,6 @@ const PuzzleMain: React.FC<PuzzleMainProps> = ({ navigation }) => {
   const handlePageChange = (e: any) => {
     if (e.nativeEvent.position == 0) {
       setSelectedPage(PuzzlePage.Grid);
-      setSelectedSection(PuzzleSection.MainGrid);
     } else {
       setSelectedPage(PuzzlePage.Clues);
       setSelectedSection(PuzzleSection.CluePage);

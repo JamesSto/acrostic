@@ -31,7 +31,7 @@ export const AcrosticSquare: React.FC<AcrosticSquareProps> = memo(
     onSquarePress,
     showNumber = true,
   }) => {
-    console.log(squareData.squareNum + " RENDERING");
+    // console.log(squareData.squareNum + " RENDERING");
     return (
       <Pressable
         onPress={onSquarePress}

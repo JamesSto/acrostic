@@ -19,7 +19,7 @@ const PuzzleCluesView: React.FC<Props> = memo(
     setSelectedSection,
   }) => {
     return (
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps={'always'}>
         <View style={styles.container}>
           {puzzle.clues.map((clueData, index) => (
             <View style={styles.clueContainer} key={index}>
@@ -48,14 +48,14 @@ interface Props {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 12,
+    paddingLeft: 12,
     paddingVertical: 10,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
+    width: "100%",
   },
   clueContainer: {
-    marginBottom: 14,
-  },
+    marginBottom: 12,
+    marginRight: 25,
+  }
 });
 
 export default PuzzleCluesView;

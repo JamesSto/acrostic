@@ -1,6 +1,6 @@
 import React, { memo, useMemo, useEffect, useState, useCallback } from "react";
 
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, ScrollView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AcrosticSquare, BlackSquare } from "./AcrosticSquare";
@@ -30,30 +30,28 @@ const PuzzleGrid: React.FC<PuzzleGridProps> = memo(
     );
 
     return (
-      <View style={styles.container}>
-                  <ActiveClue
-            puzzle={puzzle}
-            userEntries={userEntries}
-            highlightedSquareNum={highlightedSquareNum}
-            handleSquarePress={handleSquarePress}
-            setHighlightedSquareNum={setHighlightedSquareNum}
-            setSelectedSection={setSelectedSection}
-          />
-        <View style={styles.gridContainer}>
-          <MainGrid
-            puzzle={puzzle}
-            userEntries={userEntries}
-            highlightedSquareNum={highlightedSquareNum}
-            handleSquarePress={handleSquarePress}
-          />
-          <AuthorGrid
-            puzzle={puzzle}
-            userEntries={userEntries}
-            highlightedSquareNum={highlightedSquareNum}
-            handleSquarePress={handleSquarePress}
-          />
-        </View>
-      </View>
+      <ScrollView style={styles.container} keyboardShouldPersistTaps={'always'}>
+        <ActiveClue
+          puzzle={puzzle}
+          userEntries={userEntries}
+          highlightedSquareNum={highlightedSquareNum}
+          handleSquarePress={handleSquarePress}
+          setHighlightedSquareNum={setHighlightedSquareNum}
+          setSelectedSection={setSelectedSection}
+        />
+        <MainGrid
+          puzzle={puzzle}
+          userEntries={userEntries}
+          highlightedSquareNum={highlightedSquareNum}
+          handleSquarePress={handleSquarePress}
+        />
+        <AuthorGrid
+          puzzle={puzzle}
+          userEntries={userEntries}
+          highlightedSquareNum={highlightedSquareNum}
+          handleSquarePress={handleSquarePress}
+        />
+      </ScrollView>
     );
   }
 );
@@ -218,30 +216,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-  },
-  gridContainer: {
-    marginTop: 12,
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "flex-start",
-    alignSelf: "center",
+    paddingTop: 5,
+    paddingHorizontal: 8,
   },
   mainGrid: {
-    flexDirection: "column",
-    alignItems: "flex-start",
     alignSelf: "center",
   },
   authorGrid: {
     marginTop: 12,
-    flexDirection: "column",
-    alignItems: "flex-start",
     alignSelf: "center",
+    marginBottom: 50,
   },
   activeClue: {
+    height: 81,
     width: "100%",
-    padding: 8,
-    alignItems: "flex-start",
-    alignSelf: "flex-start",
   },
   word: {
     flexDirection: "row",

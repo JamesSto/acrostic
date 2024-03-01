@@ -28,7 +28,7 @@ const PuzzleClue: React.FC<PuzzleClueProps> = ({
     <View>
       <View style={styles.clueLabelContainer}>
         <Text style={styles.clueLetter}>{acrosticClueData.letter}.</Text>
-        <Text style={styles.clueText}>{acrosticClueData.clue}</Text>
+        <View style={styles.clueTextBorder}><Text style={styles.clueText}>{acrosticClueData.clue}</Text></View>
       </View>
       <View style={styles.answerContainer}>
         {acrosticClueData.answer.map((square, index) => (
@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
   clueLabelContainer: {
     flexDirection: "row",
     marginBottom: 5,
-    marginRight: 40,
   },
   clueLetter: {
     fontWeight: "bold",
@@ -73,6 +72,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft: 25,
   },
+  clueTextBorder: {
+    flexShrink: 1,
+  }
 });
 
 export default PuzzleClue;

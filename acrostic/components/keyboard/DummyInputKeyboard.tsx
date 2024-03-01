@@ -3,24 +3,29 @@ import { View, StyleSheet, TextInput } from "react-native";
 import { LetterButton, BackspaceButton } from "./KeyboardButtons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-const DummyInputKeyboard: React.FC<DummyInputKeyboard> = ({ setSquareEntry, inputRef }) => {
-  const [currText, setCurrText] = useState('key:');
-
-  const handleLetterInput = (newText: String) => {
-    if (newText.length == currText.length - 1) {
-      setSquareEntry('');
+const DummyInputKeyboard: React.FC<DummyInputKeyboard> = ({
+  setSquareEntry,
+  inputRef,
+}) => {
+  const handleLetterInput = (event: { nativeEvent: { key: string } }) => {
+    if (event.nativeEvent.key === "Backspace") {
+      setSquareEntry("");
     } else {
-      setSquareEntry(newText.slice(-1).toUpperCase());
+      setSquareEntry(event.nativeEvent.key.toUpperCase());
     }
-  }
+  };
 
   return (
     <TextInput
       style={styles.dummyInput}
-      value={currText}
-      onChangeText={handleLetterInput}
+      value={""}
+      onKeyPress={handleLetterInput}
       ref={inputRef}
       autoFocus
+      autoComplete={"off"}
+      autoCorrect={false}
+      spellCheck={false}
+      keyboardType="visible-password"
     />
   );
 };
@@ -35,8 +40,7 @@ const styles = StyleSheet.create({
     height: 0,
     width: 0,
   },
-  testVisible: {
-  }
+  testVisible: {},
 });
 
 export default DummyInputKeyboard;
